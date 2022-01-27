@@ -8,7 +8,11 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 setenv VIRTUAL_ENV "/Users/ropeeples/Documents/ada_projects/Capstone-Back-End/venv"
+=======
+setenv VIRTUAL_ENV "/Users/adahaile/Ada/Capstone_Project/capstone-back-end/venv"
+>>>>>>> cfd14c6c388706d708c8f40416706520ab95df88
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

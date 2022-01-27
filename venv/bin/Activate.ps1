@@ -197,7 +197,11 @@ else {
         $Prompt = $pyvenvCfg['prompt'];
     }
     else {
+<<<<<<< HEAD
         Write-Verbose "  Setting prompt based on parent's directory's name. (Is the directory name passed to venv module when creating the virtual environment)"
+=======
+        Write-Verbose "  Setting prompt based on parent's directory's name. (Is the directory name passed to venv module when creating the virutal environment)"
+>>>>>>> cfd14c6c388706d708c8f40416706520ab95df88
         Write-Verbose "  Got leaf-name of $VenvDir='$(Split-Path -Path $venvDir -Leaf)'"
         $Prompt = Split-Path -Path $venvDir -Leaf
     }
