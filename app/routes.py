@@ -52,8 +52,23 @@ def see_your_pet(username, name):
     if not your_pet_name:
         return make_response({"Invalid pet name"}, 400)
     elif not found_pet:
+        return make_response({"Pet not found"}, 404)
+    elif not your_username: 
         return make_response({"Invalid username"}, 400)
-    else: 
+    else:
         pass 
 
 
+@pet_bp.route("/<username>/<zipcode>", methods=["GET"])
+def find_new_pals(username, zipcode):
+    target_zipcode = Pet.query.get(zipcode)
+    your_username = Pet.query.get(username)
+    pets_nearby = db.session.query(Pet.username, Pet.zipcode).filter(Pet.username != your_username, Pet.zipcode == target_zipcode)
+    if not pets_nearby:
+        return make_response({"No pets near yours"}, 404)
+    elif not target_zipcode:
+        return make_response({"Invalid zipcode"}, 400)
+    elif not your_username:
+        return make_response({"Invalid username"}, 400)
+    else:
+        pass 
