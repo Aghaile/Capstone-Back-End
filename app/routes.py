@@ -45,13 +45,13 @@ def add_a_pet():
 
 
 @pet_bp.route("/<username>/<name>", methods=["GET"])
-def see_your_pet(username):
-    request_body = request.get_json()
-    username = Human.query.get(username)
-    name = db.session.query(Pet).join(Human).filter(Human.username == username)
-    if not name or 'name' not in request_body:
+def see_your_pet(username, name):
+    your_pet_name = Pet.query.get(name)
+    your_username = Human.query.get(username)
+    found_pet = db.session.query(Pet).join(Human).filter(Human.username == your_username, Pet.name == your_pet_name)
+    if not your_pet_name:
         return make_response({"Invalid pet name"}, 400)
-    elif not username:
+    elif not found_pet:
         return make_response({"Invalid username"}, 400)
     else: 
         pass 
