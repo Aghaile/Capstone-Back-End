@@ -21,7 +21,7 @@ def create_a_profile():
         db.session.commit()
         return(new_profile.convert_human_to_dict()), 201
 
-@human_bp.route("", methods=["GET"])
+@human_bp.route("/<username>", methods=["GET"])
 def get_profile_by_username(username):
     username=Human.query.get(username)
     if not username:
@@ -42,10 +42,18 @@ def add_a_pet():
         db.session.add(new_profile)
         db.session.commit()
         return(new_profile.convert_human_to_dict()), 201
-        
-        
-        
 
 
 @pet_bp.route("/<username>/<name>", methods=["GET"])
-def see_your_pet():
+def see_your_pet(username):
+    request_body = request.get_json()
+    username = Human.query.get(username)
+    name = db.session.query(Pet).join(Human).filter(Human.username == username)
+    if not name or 'name' not in request_body:
+        return make_response({"Invalid pet name"}, 400)
+    elif not username:
+        return make_response({"Invalid username"}, 400)
+    else: 
+        pass 
+
+
