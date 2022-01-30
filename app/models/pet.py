@@ -5,7 +5,7 @@ class Pet(db.Model):
     age=db.Column(db.Integer)
     username=db.Column(db.String, db.ForeignKey('human.username'), nullable=False)
     zipcode=db.Column(db.Integer, db.ForeignKey('human.username'), nullable=False)
-    human=db.relationship('Human', backref='pet')
+    # human=db.relationship('Human', backref='pet')
 
 
     def convert_pet_to_dict(self):
