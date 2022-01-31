@@ -23,7 +23,6 @@ def create_app(test_config=None):
 
     
     # import models for Alembic Setup
-    from app.models.human import Human
     from app.models.pet import Pet
 
     # Setup DB
@@ -31,10 +30,8 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
 
     #Register Blueprints Here
-    from .routes import human_bp
     from .routes import pet_bp
     
-    app.register_blueprint(human_bp)
     app.register_blueprint(pet_bp)
     
 
