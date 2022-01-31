@@ -24,6 +24,7 @@ def create_app(test_config=None):
     
     # import models for Alembic Setup
     from app.models.pet import Pet
+    from app.models.friendship import Friendship
 
     # Setup DB
     db.init_app(app)
@@ -31,8 +32,10 @@ def create_app(test_config=None):
 
     #Register Blueprints Here
     from .routes import pet_bp
+    from .routes import friendship_bp
     
     app.register_blueprint(pet_bp)
+    app.register_blueprint(friendship_bp)
     
 
     return app
