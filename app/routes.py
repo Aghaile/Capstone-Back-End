@@ -52,3 +52,21 @@ def find_a_profile(pet_id):
         db.session.delete(pet)
         db.session.commit()
         return make_response({'message': f"{pet.name}'s profile was deleted"}, 200)
+
+
+@pet_bp.route("/<pet_id>/pals", methods=["GET"])
+def get_all_friendships_for_one_pet(pet_id):
+    if not Pet.query.get(pet_id):
+        return jsonify({"details": f"{pet_id} was not found"}), 404
+
+    sort_query = request.args.get("sort")
+    if sort_query == "potential_pals":
+        pals = Friendship.query.get(Friendship.friendship_id).filter_by(potential_pals=True).all()
+    if sort_query == "pending_pals":
+        pals = Friendship.query.get(Friendship.friendship_id).filter_by(pending_pals=True).all()
+    if sort_query == "pawsitively_pals":
+        pals = Friendship.query.get(Friendship.friendship_id).filter_by(pawsitively_pals=True).all()
+    else:
+        # no order specified
+        pals = Friendship.query.get(pet_id).pals
+    return jsonify([pals]), 200
