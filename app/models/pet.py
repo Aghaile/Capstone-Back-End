@@ -6,12 +6,13 @@ class Pet(db.Model):
     age=db.Column(db.Integer, autoincrement=True)
     gender=db.Column(db.String)
     species=db.Column(db.String)
-    zipcode=db.Column(db.Integer, nullable=False)
-    phone_number = db.Column(db.Integer, nullable = False)
+    zipcode=db.Column(db.Numeric(5), nullable=False)
+    phone_number=db.Column(db.Numeric(9), nullable = False)
     
 
     def convert_pet_to_dict(self):
-        return {"name": self.name,
+        return {"pet_id": self.pet_id,
+                "name": self.name,
                 "bio": self.bio,
                 "age":self.age, 
                 "gender": self.gender,

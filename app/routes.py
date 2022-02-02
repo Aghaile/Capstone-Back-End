@@ -3,28 +3,29 @@ from app import db
 from app.models.pet import Pet
 from app.models.friendship import Friendship
 
-
-
 pet_bp = Blueprint("pet", __name__, url_prefix="/pet")
 friendship_bp = Blueprint("friendship", __name__, url_prefix="/friendship")
-
 
 @pet_bp.route("", methods=["POST"]) #for the "create profile" page
 def create_a_profile():
     request_body = request.get_json()
     if request_body['name'].strip() == "" or 'name' not in request_body:
         return make_response({"details": "Request body must include name."}, 400)
-    elif request_body['zipcode'].strip() == "" or 'zipcode' not in request_body:
+    elif request_body['zipcode'] == "" or 'zipcode' not in request_body:
         return make_response({"details": "Request body must include zipcode."}, 400)
-    elif request_body['phone_number'].strip() == "" or 'phone_number' not in request_body:
+    elif request_body['phone_number'] == "" or 'phone_number' not in request_body:
         return make_response({"details": "Request body must include a phone number."}, 400)
-    else:
         # taking info fr request_body and converting it to new Board object
-        new_profile = Pet.convert_pet_to_dict(request_body)
-        # committing changes to db
-        db.session.add(new_profile)
-        db.session.commit()
-        return(new_profile.convert_pet_to_dict()), 201
+    new_profile = Pet(
+        name = request_body["name"],
+        zipcode = request_body["zipcode"],
+        phone_number = request_body["phone_number"]
+        )
+    # committing changes to db
+    db.session.add(new_profile)
+    db.session.commit()
+    confirmed = new_profile.convert_pet_to_dict()
+    return jsonify(confirmed), 201
 
 @pet_bp.route("/pet/<pet_id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(pet_id):
@@ -54,7 +55,7 @@ def find_a_profile(pet_id):
         return make_response({'message': f"{pet.name}'s profile was deleted"}, 200)
 
 
-@pet_bp.route("/<pet_id>/pals", methods=["GET"])
+@pet_bp.route("/pet/<pet_id>", methods=["GET"])
 def get_all_friendships_for_one_pet(pet_id):
     if not Pet.query.get(pet_id):
         return jsonify({"details": f"{pet_id} was not found"}), 404
