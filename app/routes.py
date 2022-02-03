@@ -18,7 +18,11 @@ def create_a_profile():
     new_profile = Pet(
         name = request_body["name"],
         zipcode = request_body["zipcode"],
-        phone_number = request_body["phone_number"]
+        phone_number = request_body["phone_number"],
+        bio = request_body["bio"],
+        age = request_body["age"],
+        gender = request_body["gender"],
+        species = request_body["species"],
         )
     db.session.add(new_profile)
     db.session.commit()
@@ -28,7 +32,7 @@ def create_a_profile():
 @pet_bp.route("/<pet_id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(pet_id):
     if not pet_id.isnumeric():
-         return jsonify(None), 400
+        return jsonify(None), 400
 
     pet = Pet.query.get(pet_id)
 
