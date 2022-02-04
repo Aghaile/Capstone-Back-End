@@ -11,6 +11,8 @@ class Pet(db.Model):
     species=db.Column(db.String)
     zipcode=db.Column(db.Integer, nullable=False)
     phone_number=db.Column(db.String(10), nullable = False)
+    #pull phone number library into front and back end 
+    #e164
     
 
     def convert_pet_to_dict(self):

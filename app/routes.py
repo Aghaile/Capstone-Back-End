@@ -6,28 +6,38 @@ from app.models.friendship import Friendship
 pet_bp = Blueprint("pet", __name__, url_prefix="/pet")
 friendship_bp = Blueprint("friendship", __name__, url_prefix="/friendship")
 
-@pet_bp.route("", methods=["POST"]) #for the "create profile" page
+@pet_bp.route("", methods=["POST", "GET"]) #for the "create profile" page
 def create_a_profile():
     request_body = request.get_json()
-    if request_body['name'].strip() == "" or 'name' not in request_body:
-        return make_response({"details": "Request body must include name."}, 400)
-    elif request_body['zipcode'] == "" or 'zipcode' not in request_body:
-        return make_response({"details": "Request body must include zipcode."}, 400)
-    elif request_body['phone_number'] == "" or 'phone_number' not in request_body:
-        return make_response({"details": "Request body must include a phone number."}, 400)
-    new_profile = Pet(
-        name = request_body["name"],
-        zipcode = request_body["zipcode"],
-        phone_number = request_body["phone_number"],
-        age = request_body["age"],
-        bio = request_body["bio"],
-        gender = request_body["gender"],
-        species = request_body["species"],
-        )
-    db.session.add(new_profile)
-    db.session.commit()
-    confirmed = new_profile.convert_pet_to_dict()
-    return jsonify(confirmed), 201
+    if request.method == "POST":
+        if request_body['name'].strip() == "" or 'name' not in request_body:
+            return make_response({"details": "Request body must include name."}, 400)
+        elif request_body['zipcode'] == "" or 'zipcode' not in request_body:
+            return make_response({"details": "Request body must include zipcode."}, 400)
+        elif request_body['phone_number'] == "" or 'phone_number' not in request_body:
+            return make_response({"details": "Request body must include a phone number."}, 400)
+        new_profile = Pet(
+            name = request_body["name"],
+            zipcode = request_body["zipcode"],
+            phone_number = request_body["phone_number"],
+            age = request_body["age"],
+            bio = request_body["bio"],
+            gender = request_body["gender"],
+            species = request_body["species"],
+            )
+        db.session.add(new_profile)
+        db.session.commit()
+        confirmed = new_profile.convert_pet_to_dict()
+        return jsonify(confirmed), 201
+    elif request.method == "GET":
+        pets = Pet.query.all()
+        pets_response = []
+        for pet in pets:
+            pets_response.append(pet.convert_pet_to_dict())
+        if pets_response == []:
+            return jsonify(pets_response), 200
+
+        return jsonify(pets_response), 200
 
 @pet_bp.route("/<pet_id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(pet_id):
