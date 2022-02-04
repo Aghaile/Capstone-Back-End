@@ -31,31 +31,36 @@ def create_a_profile():
 
 @pet_bp.route("/<pet_id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(pet_id):
-    if not pet_id.isnumeric():
-         return jsonify(None), 400
+    # if not pet_id.isnumeric():
+    #      return jsonify(None), 400
 
     pet = Pet.query.get(pet_id)
 
-    if not pet:
+    if pet == None:
         return jsonify({"message": f"Pet {pet_id} was not found"}), 404
     
     if request.method == "GET":
         return jsonify(pet.convert_pet_to_dict()), 200
 
     elif request.method == "PATCH":
-        pet_update_request_body = request.get_json()
-        pet.name = pet_update_request_body["name"],
-        pet.bio = pet_update_request_body["bio"],
-        pet.age = pet_update_request_body["age"],
-        pet.gender = pet_update_request_body["gender"],
-        pet.zipcode = pet_update_request_body["zipcode"],
-        pet.phone_number = pet_update_request_body["phone_number"]
+        request_body = request.get_json()
+        if "login" not in request_body:
+            return jsonify(None), 400
+        else:
+            form_data = request.get_json(pet_id)
+            pet.name = form_data["name"]
+            pet.phone_number = form_data["phone_number"]
+            pet.zipcode = form_data["zipcode"]
+            pet.age = form_data["age"]
+            pet.gender = form_data["gender"]
+            pet.species = form_data["species"]
+            pet.bio = form_data["bio"]
 
-        db.session.commit()
+            db.session.commit()
 
-        updated_pet_response = pet.convert_pet_to_dict()
+            updated_pet_response = pet.convert_pet_to_dict()
 
-        return jsonify(updated_pet_response), 200
+            return jsonify(updated_pet_response), 200
 
     elif request.method == "DELETE":
         db.session.delete(pet)
