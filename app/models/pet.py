@@ -24,4 +24,5 @@ class Pet(db.Model):
                 "gender": self.gender,
                 "species": self.species,
                 "zipcode": self.zipcode,
-                "phone_number": self.phone_number}
+                "phone_number": self.phone_number,
+                "login": self.login,}
