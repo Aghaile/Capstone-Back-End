@@ -40,7 +40,5 @@ def create_app(test_config=None):
     
     app.register_blueprint(pet_bp)
     app.register_blueprint(friendship_bp)
-    
-    # @app.route("/")
-    # def helloWorld():
-    #     return "Hello, cross-origin-world!"
+
+    return app 
