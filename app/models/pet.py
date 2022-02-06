@@ -1,15 +1,25 @@
 from app import db
-class Pet(db.Model):
-    name=db.Column(db.String, primary_key=True)
-    bio=db.Column(db.String)
-    age=db.Column(db.Integer)
-    username=db.Column(db.String, db.ForeignKey('human.username'), nullable=False)
-    zipcode=db.Column(db.Integer, db.ForeignKey('human.username'), nullable=False)
-    # human=db.relationship('Human', backref='pet')
+import uuid 
 
+class Pet(db.Model):
+    id=db.Column(db.Integer, primary_key=True, autoincrement = True)
+    name=db.Column(db.String, nullable=False)
+    bio=db.Column(db.String) 
+    age=db.Column(db.Integer)
+    gender=db.Column(db.String)
+    species=db.Column(db.String)
+    zipcode=db.Column(db.Integer, nullable=False)
+    phone_number=db.Column(db.String(10), nullable = False)
+    #pull phone number library into front and back end 
+    #e164
+    
 
     def convert_pet_to_dict(self):
-        return {"name": self.name,
-                "zipcode": self.zipcode,
+        return {"id": self.id,
+                "name": self.name,
                 "bio": self.bio,
-                "age":self.age}
+                "age":self.age, 
+                "gender": self.gender,
+                "species": self.species,
+                "zipcode": self.zipcode,
+                "phone": self.phone_number}
