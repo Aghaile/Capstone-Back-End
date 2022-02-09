@@ -9,7 +9,7 @@ class Pet(db.Model):
     gender=db.Column(db.String)
     species=db.Column(db.String)
     zipcode=db.Column(db.Integer, nullable=False)
-    phone=db.Column(db.String(10), nullable = False)
+    phone_number=db.Column(db.String(10), nullable = False)
     #pull phone number library into front and back end 
     #e164
     
@@ -22,4 +22,4 @@ class Pet(db.Model):
                 "gender": self.gender,
                 "species": self.species,
                 "zipcode": self.zipcode,
-                "phone": self.phone}
+                "phone": self.phone_number}
