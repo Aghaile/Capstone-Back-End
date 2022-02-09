@@ -14,12 +14,12 @@ def create_a_profile():
             return make_response({"details": "Request body must include name."}, 400)
         elif request_body['zipcode'] == "" or 'zipcode' not in request_body:
             return make_response({"details": "Request body must include zipcode."}, 400)
-        elif request_body['phone_number'] == "" or 'phone_number' not in request_body:
+        elif request_body['phone'] == "" or 'phone' not in request_body:
             return make_response({"details": "Request body must include a phone number."}, 400)
         new_profile = Pet(
             name = request_body["name"],
             zipcode = request_body["zipcode"],
-            phone_number = request_body["phone_number"],
+            phone = request_body["phone"],
             age = request_body["age"],
             bio = request_body["bio"],
             gender = request_body["gender"],
