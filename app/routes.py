@@ -6,6 +6,7 @@ from app.models.friendship import Friendship
 pet_bp = Blueprint("pet", __name__, url_prefix="/pet")
 friendship_bp = Blueprint("friendship", __name__, url_prefix="/friendship")
 
+
 @pet_bp.route("", methods=["POST", "GET"]) #for the "create profile" page
 def create_a_profile():
     request_body = request.get_json()
@@ -29,13 +30,23 @@ def create_a_profile():
         db.session.commit()
         confirmed = new_profile.convert_pet_to_dict()
         return jsonify(confirmed), 201
-    elif request.method == "GET":
-        pets = Pet.query.all()
+
+@pet_bp.route("/<id>/findpal/", methods=["GET"])
+def find_a_pal(id):
+    request_body = request.get_json()
+    # zipcode = request_body[“zipcode”
+    # my_zipcode = Pet.query.get(zipcode)
+    # zipcode = Pet.query.get(request_body[zipcode])
+
+    #dont include pals 
+
+    if request.method== "GET":
+        pets = Pet.query.filter(Pet.id!=id)
         pets_response = []
         for pet in pets:
             pets_response.append(pet.convert_pet_to_dict())
-        if pets_response == []:
-            return jsonify(pets_response), 200
+        # if pets_response == []:
+        #     return jsonify(pets_response), 200
 
         return jsonify(pets_response), 200
 
