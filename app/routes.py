@@ -33,22 +33,17 @@ def create_a_profile():
 
 @pet_bp.route("/<id>/findpal/", methods=["GET"])
 def find_a_pal(id):
-    request_body = request.get_json()
-    # zipcode = request_body[“zipcode”
-    # my_zipcode = Pet.query.get(zipcode)
-    # zipcode = Pet.query.get(request_body[zipcode])
-
+    pet=Pet.query.get(id)
+    
     #dont include pals 
 
     if request.method== "GET":
-        pets = Pet.query.filter(Pet.id!=id)
-        pets_response = []
-        for pet in pets:
-            pets_response.append(pet.convert_pet_to_dict())
-        # if pets_response == []:
-        #     return jsonify(pets_response), 200
+        pals = Pet.query.filter(Pet.id!=pet.id, Pet.zipcode==pet.zipcode).all()
+        pals_response = []
+        for pal in pals:
+                pals_response.append(pal.convert_pet_to_dict())
 
-        return jsonify(pets_response), 200
+        return jsonify(pals_response), 200
 
 @pet_bp.route("/<id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(id):
