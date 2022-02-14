@@ -85,7 +85,7 @@ def find_a_profile(id):
         return jsonify({"message": f"Pet {pet.id} profile deleted."}), 200
 
 
-# @friendship_bp.route("/<pet_id>", methods=["GET"])
+# @friendship_bp.route("/<pet_id>/yourpals/", methods=["GET"])
 # def get_all_friendships_for_one_pet(pet_id):
 #     if not Pet.query.get(pet_id):
 #         return jsonify({"details": f"{pet_id} was not found"}), 404
