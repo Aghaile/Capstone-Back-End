@@ -31,7 +31,7 @@ def create_a_profile():
         confirmed = new_profile.convert_pet_to_dict()
         return jsonify(confirmed), 201
 
-@pet_bp.route("/<id>/findpal/", methods=["GET"])
+@pet_bp.route("/<id>/findpals", methods=["GET"])
 def find_a_pal(id):
     pet=Pet.query.get(id)
     
@@ -43,7 +43,7 @@ def find_a_pal(id):
         for pal in pals:
                 pals_response.append(pal.convert_pet_to_dict())
 
-        return jsonify(pals_response), 200
+    return jsonify(pals_response), 200
 
 @pet_bp.route("/<id>", methods=["GET", "PATCH", "DELETE"]) #for the welcome page
 def find_a_profile(id):
